@@ -1,51 +1,29 @@
 task:
-  matrix:
-  - name: Android App Build
     windows_container:
       image: cirrusci/windowsservercore:2019
-    environment:
-      - GITHUB_TOKEN: ENCRYPTED[38a5a4b83d9859dccc98655bdc993fb9da11ad43d0c787473b692f45732505f167335e45564474e9f3a1cbe7a883b3ae]
     env:
-        CIRRUS_SHELL: powershell    
+      - CIRRUS_SHELL: powershell
+      - GITHUB_TOKEN: ENCRYPTED[4c0cfca7f925a125575a0da63c0781ddc5871e35c8af9c54c67837bc612a3f763c6fda1b39224c36f6bce162c9ad1c58]
     setup_script:
-    - $env:package_version = (Invoke-WebRequest  -UseBasicParsing -Uri "https://api.github.com/repos/JukaLang/juka/releases/latest" | ConvertFrom-Json).tag_name
-    - choco install -y android-sdk
-    - Invoke-WebRequest -OutFile temp.zip -Uri https://download.visualstudio.microsoft.com/download/pr/7c4e5883-6139-4093-a1cf-5f0c6fabce89/60a342b67d120328c41fe6c7ff13890b/dotnet-sdk-7.0.100-preview.6.22352.1-win-x64.zip
-    - Expand-Archive -Path temp.zip -DestinationPath ./
+    - choco install -y --no-progress dotnet-sdk --pre
+    - refreshenv
+    - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
     script:
-    - SET AndroidSdkDirectory=C:\Android\android-sdk
-    - ./dotnet workload restore
-    - ./dotnet publish -f net6.0-android -c Release -o output /p:AndroidSdkDirectory=C:\Android\android-sdk
-    - Get-Location
-    package_script:
-    - Move-Item -Path C:\Users\ContainerAdministrator\AppData\Local\Temp\cirrus-ci-build\output\com.companyname.jukaapp-Signed.apk -Destination C:\Users\ContainerAdministrator\AppData\Local\Temp\cirrus-ci-build\output\Juka_${env:package_version}.apk
-    upload_script: |
-        #!/usr/bin/env bash
-
-        if [[ "$CIRRUS_RELEASE" == "" ]]; then
-            echo "Not a release. No need to deploy!"
-            exit 0
-        fi
-
-        if [[ "$GITHUB_TOKEN" == "" ]]; then
-            echo "Please provide GitHub access token via GITHUB_TOKEN environment variable!"
-            exit 1
-        fi
-
-        file_content_type="application/octet-stream"
-
-        files_to_upload=(
-            "/tmp/cirrus-ci-build/bin/Release/net6.0-android/publish/Juka_${env:package_version}.apk"
-        )
-
-        for fpath in "${files_to_upload[@]}"
-        do
-            echo "Uploading $fpath..."
-            name=$(basename "$fpath")
-            url_to_upload="https://uploads.github.com/repos/$CIRRUS_REPO_FULL_NAME/releases/$CIRRUS_RELEASE/assets?name=$name"
-            curl -X POST \
-            --data-binary @$fpath \
-            --header "Authorization: token $GITHUB_TOKEN" \
-            --header "Content-Type: $file_content_type" \
-            $url_to_upload
-        done
+    - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+    - certutil -user -p jukatest -importPFX Juka.pfx NoRoot
+    - dotnet workload restore JukaApp.csproj --ignore-failed-sources
+    compile_script:
+    - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User") 
+    - dotnet workload restore JukaApp.csproj --ignore-failed-sources
+    - dotnet restore JukaApp.csproj --ignore-failed-sources
+    - $mypwd = ConvertTo-SecureString -String "jukatest" -Force -AsPlainText
+    - $Thumbprint = (Get-PfxData -Password $mypwd -FilePath "./Juka.pfx").EndEntityCertificates.Thumbprint
+    - dotnet publish JukaApp.csproj -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.cer" /p:AppxPackageSigningEnabled=true
+    upload_script:
+    - $CIRRUS_RELEASE = (Invoke-WebRequest  -UseBasicParsing -Uri "https://api.github.com/repos/JukaLang/juka/releases/latest" | ConvertFrom-Json).tag_name
+    - $headers = @{Authorization="token $env:MYTOKEN"}
+    - $postparam = (@{"tag_name" = $CIRRUS_RELEASE; "target_commitish" = "master"; "name" = $CIRRUS_RELEASE; "body"="Juka App released on "+$CIRRUS_RELEASE; "draft"=$false;"prerelease"=$false;"generate_release_notes"=$false} |ConvertTo-Json)
+    - $output = (Invoke-WebRequest -URI https://api.github.com/repos/jukalang/jukaapp/releases -Method POST -Body $postparam -Headers $headers -ContentType "application/octet-stream" -UseBasicParsing)
+    - $releaseID = ($output | ConvertFrom-Json).id
+    - Invoke-WebRequest -URI https://uploads.github.com/repos/jukalang/jukaapp/releases/$releaseID/assets?name=JukaApp.msix -Method POST -InFile "C:\Users\ContainerAdministrator\AppData\Local\Temp\cirrus-ci-build\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\JukaApp_1.0.0.1_x64_Debug.msix"  -ContentType "application/octet-stream" -Headers $headers -UseBasicParsing
+    - dir
