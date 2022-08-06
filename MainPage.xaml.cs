@@ -21,5 +21,11 @@ public partial class MainPage : ContentPage
         RunJukaBtn.Text = $"Run Juka";
 
     }
+
+	private void codeeditor_TextChanged(object sender, TextChangedEventArgs e)
+	{
+        var oldText = e.OldTextValue;
+        var newText = e.NewTextValue;
+    }
 }
 

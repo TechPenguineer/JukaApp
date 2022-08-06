@@ -49,7 +49,15 @@
                         IsSpellCheckEnabled="False"
                         AutoSize="TextChanges"
                         IsTextPredictionEnabled="False"
-                        />
+                        TextChanged="codeeditor_TextChanged"
+                        Placeholder="Enter Code Here..."                        
+                        >
+                        <Editor.Text>
+func main() = { 
+   printLine("Hello World");
+}
+                        </Editor.Text>
+                    </Editor>
                 </Frame>
 
 
