@@ -55,6 +55,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="NewFolder1\**" />
+	  <AndroidResource Remove="NewFolder\**" />
+	  <Compile Remove="NewFolder1\**" />
+	  <Compile Remove="NewFolder\**" />
+	  <EmbeddedResource Remove="NewFolder1\**" />
+	  <EmbeddedResource Remove="NewFolder\**" />
+	  <MauiCss Remove="NewFolder1\**" />
+	  <MauiCss Remove="NewFolder\**" />
+	  <MauiXaml Remove="NewFolder1\**" />
+	  <MauiXaml Remove="NewFolder\**" />
+	  <None Remove="NewFolder1\**" />
+	  <None Remove="NewFolder\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\Fonts\Architex.ttf" />
 	  <None Remove="Resources\Fonts\CONSOLA.TTF" />
 	  <None Remove="Resources\Fonts\Poppins-Bold.ttf" />
@@ -63,12 +78,10 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Discord.Webhooks" Version="1.0.0" />
-	  <PackageReference Include="JukaCompiler" Version="0.0.164" />
+	  <PackageReference Include="JukaCompiler" Version="0.0.175" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="NewFolder1\" />
-	  <Folder Include="NewFolder\" />
 	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
