@@ -15,10 +15,10 @@ public partial class MainPage : ContentPage
 		SemanticScreenReader.Announce(RunJukaBtn.Text);
         //outputText.Text
 		String data = new Compiler().Go(codeeditor.Text, isFile: false);
-		JukaApp.Webhook.UFWS webManager = new JukaApp.Webhook.UFWS();
-		webManager.SendWebhook(data);
+		Webhook.UFWS webManager = new JukaApp.Webhook.UFWS();
+		//webManager.SendWebhook(data,);
 		outputText.Text = data;
-        RunJukaBtn.Text = $"Run Juko";
+        RunJukaBtn.Text = $"Run Juka";
 
     }
 }
