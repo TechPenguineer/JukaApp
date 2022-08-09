@@ -8,6 +8,7 @@ task:
     - choco install -y --no-progress jdk8
     - choco install -y --no-progress dotnet-sdk --pre
     - choco install -y --no-progress android-sdk --pre
+    - cmd.exe /C "C:\Android\android-sdk\tools\bin\sdkmanager.bat --licenses" 
     - android update sdk --filter tools,platform-tools,build-tools-21.1.2,android-21,extra-android-support,
     - android update sdk --filter 1,2,7,26,139,150
     - refreshenv
