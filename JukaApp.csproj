@@ -15,7 +15,7 @@
 		<ApplicationTitle>JukaApp</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.jukaapp</ApplicationId>
+		<ApplicationId>com.jukalang.jukaapp</ApplicationId>
 		<ApplicationIdGuid>5C7A21DF-0E8D-41A9-A310-41C4A0BAEAE9</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -54,20 +54,6 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <AndroidResource Remove="NewFolder1\**" />
-	  <AndroidResource Remove="NewFolder\**" />
-	  <Compile Remove="NewFolder1\**" />
-	  <Compile Remove="NewFolder\**" />
-	  <EmbeddedResource Remove="NewFolder1\**" />
-	  <EmbeddedResource Remove="NewFolder\**" />
-	  <MauiCss Remove="NewFolder1\**" />
-	  <MauiCss Remove="NewFolder\**" />
-	  <MauiXaml Remove="NewFolder1\**" />
-	  <MauiXaml Remove="NewFolder\**" />
-	  <None Remove="NewFolder1\**" />
-	  <None Remove="NewFolder\**" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove="Resources\Fonts\Architex.ttf" />
