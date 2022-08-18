@@ -49,7 +49,6 @@
                         IsSpellCheckEnabled="False"
                         AutoSize="TextChanges"
                         IsTextPredictionEnabled="False"
-                        TextChanged="codeeditor_TextChanged"
                         Placeholder="Enter Code Here..."                        
                         >
                         <Editor.Text>
