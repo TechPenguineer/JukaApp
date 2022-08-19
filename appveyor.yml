@@ -24,10 +24,11 @@ before_build:
  - ps: dotnet add package JukaCompiler
 
 build_script:
+- ps: certutil -user -p jukatest -importPFX Juka.pfx
 - ps: $mypwd = ConvertTo-SecureString -String "jukatest" -Force -AsPlainText
 - ps: $Thumbprint = (Get-PfxData -Password $mypwd -FilePath "./Juka.pfx").EndEntityCertificates.Thumbprint
-- ps: dotnet publish JukaApp.sln -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.pfx" /p:AppxPackageSigningEnabled=true
-- ps: dotnet publish JukaApp.sln -f net6.0-android -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.pfx" /p:AppxPackageSigningEnabled=true
+- ps: dotnet publish JukaApp.sln -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:AppxPackageSigningEnabled=true
+- ps: dotnet publish JukaApp.sln -f net6.0-android -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:AppxPackageSigningEnabled=true
 
 artifacts:
 - path: 'src\Juka\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\JukaApp_1.0.0.1_x64_Debug.msix'
