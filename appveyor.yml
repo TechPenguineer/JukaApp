@@ -8,6 +8,13 @@ branches:
 skip_tags: false
 skip_non_tags: false
 
+version: '0.0.{build}'
+
+environment:
+  token:
+    secure: YPPyzDbCboQKYOfAl/4XahyYfDiWOsyjoL2WjyNOxH4=
+
+
 install:
  - ps: $env:package_version = (Invoke-WebRequest -URI "https://api.github.com/repos/JukaLang/juka/releases/latest" | ConvertFrom-Json).tag_name
  - ps: Update-AppveyorBuild -Version "$env:package_version"
@@ -16,13 +23,11 @@ before_build:
  - ps: dotnet workload restore JukaApp.sln
  - ps: dotnet add package JukaCompiler
 
-after_build:
+build_script:
 - ps: $mypwd = ConvertTo-SecureString -String "jukatest" -Force -AsPlainText
 - ps: $Thumbprint = (Get-PfxData -Password $mypwd -FilePath "./Juka.pfx").EndEntityCertificates.Thumbprint
 - ps: dotnet publish JukaApp.sln -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.cer" /p:AppxPackageSigningEnabled=true
 - ps: dotnet publish JukaApp.sln -f net6.0-android -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.cer" /p:AppxPackageSigningEnabled=true
-
-configuration: Debug
 
 artifacts:
 - path: 'src\Juka\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\JukaApp_1.0.0.1_x64_Debug.msix'
