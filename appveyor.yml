@@ -13,15 +13,14 @@ install:
  - ps: Update-AppveyorBuild -Version "$env:package_version"
 
 before_build: 
- - dotnet workload restore JukaApp.sln
- - dotnet add package JukaCompiler
- - dotnet restore JukaApp.sln
+ - ps: dotnet workload restore JukaApp.sln
+ - ps: dotnet add package JukaCompiler
 
 after_build:
 - ps: $mypwd = ConvertTo-SecureString -String "jukatest" -Force -AsPlainText
 - ps: $Thumbprint = (Get-PfxData -Password $mypwd -FilePath "./Juka.pfx").EndEntityCertificates.Thumbprint
-- dotnet publish JukaApp.sln -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.cer" /p:AppxPackageSigningEnabled=true
-- dotnet publish JukaApp.sln -f net6.0-android -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.cer" /p:AppxPackageSigningEnabled=true
+- ps: dotnet publish JukaApp.sln -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.cer" /p:AppxPackageSigningEnabled=true
+- ps: dotnet publish JukaApp.sln -f net6.0-android -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.cer" /p:AppxPackageSigningEnabled=true
 
 configuration: Debug
 
