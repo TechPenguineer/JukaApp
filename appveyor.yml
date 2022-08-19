@@ -24,7 +24,7 @@ before_build:
  - ps: dotnet add package JukaCompiler
 
 build_script:
-- ps: certutil -user -p jukatest -importPFX Juka.pfx
+- ps: certutil -user -p jukatest -importPFX Juka.pfx NoRoot
 - ps: $mypwd = ConvertTo-SecureString -String "jukatest" -Force -AsPlainText
 - ps: $Thumbprint = (Get-PfxData -Password $mypwd -FilePath "./Juka.pfx").EndEntityCertificates.Thumbprint
 - ps: dotnet publish JukaApp.sln -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:AppxPackageSigningEnabled=true
