@@ -1,0 +1,44 @@
+image: Visual Studio 2022
+
+branches:
+  # whitelist
+  only:
+    - master
+
+skip_tags: false
+skip_non_tags: false
+
+install:
+ - ps: $env:package_version = (Invoke-WebRequest -URI "https://api.github.com/repos/JukaLang/juka/releases/latest" | ConvertFrom-Json).tag_name
+ - ps: Update-AppveyorBuild -Version "$env:package_version"
+
+before_build: 
+ - dotnet workload restore JukaApp.csproj --ignore-failed-sources
+ - dotnet add package JukaCompiler
+ - dotnet restore JukaApp.csproj --ignore-failed-sources
+
+after_build:
+- ps: $mypwd = ConvertTo-SecureString -String "jukatest" -Force -AsPlainText
+- ps: $Thumbprint = (Get-PfxData -Password $mypwd -FilePath "./Juka.pfx").EndEntityCertificates.Thumbprint
+- dotnet publish JukaApp.csproj -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:PackageCertificateKeyFile="Juka.cer" /p:AppxPackageSigningEnabled=true
+
+configuration: Debug
+
+artifacts:
+- path: 'src\Juka\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\JukaApp_1.0.0.1_x64_Debug.msix'
+  name: Juka_Windows_App_$(APPVEYOR_BUILD_VERSION)
+  type: zip
+
+
+
+deploy:
+    # Deploy to GitHub Releases
+  - provider: GitHub
+    artifact: /.*\.zip/
+    auth_token:
+      secure: XCqLJKrsMnRCCEEcsPL53Emba/2GrP172INtXx86eu5XBbed614ug/2dcx8MZwmr
+    draft: false
+    prerelease: false
+    on:
+      branch: master                # release from master branch only
+      APPVEYOR_REPO_TAG: false       # deploy on tag push only
