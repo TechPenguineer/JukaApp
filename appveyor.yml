@@ -31,10 +31,10 @@ build_script:
 - ps: dotnet publish JukaApp.sln -f net6.0-android -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:AppxPackageSigningEnabled=true
 
 artifacts:
-- path: 'C:\projects\jukaapp\bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\JukaApp_1.0.0.1_x64_Debug.msix'
+- path: 'bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\JukaApp_1.0.0.1_x64_Debug.msix'
   name: Juka_Windows_App_$(APPVEYOR_BUILD_VERSION).msix
 
-- path: 'C:\projects\jukaapp\bin\Debug\net6.0-android\publish\com.jukalang.jukaapp-Signed.apk'
+- path: bin\Debug\net6.0-android\publish\com.jukalang.jukaapp-Signed.apk'
   name: Juka_Android_App_$(APPVEYOR_BUILD_VERSION).apk
 
 
