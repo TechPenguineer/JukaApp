@@ -10,6 +10,16 @@ skip_non_tags: false
 
 version: '0.0.{build}'
 
+
+dotnet_csproj:
+  patch: true
+  file: '*.csproj'
+  version: '{version}'
+  package_version: $(APPVEYOR_BUILD_VERSION)
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+
 environment:
   token:
     secure: YPPyzDbCboQKYOfAl/4XahyYfDiWOsyjoL2WjyNOxH4=
@@ -28,9 +38,7 @@ build_script:
 - ps: $mypwd = ConvertTo-SecureString -String "jukatest" -Force -AsPlainText
 - ps: $Thumbprint = (Get-PfxData -Password $mypwd -FilePath "./Juka.pfx").EndEntityCertificates.Thumbprint
 - ps: dotnet publish JukaApp.sln -f net6.0-windows10.0.19041.0 -c Debug /p:PackageCertificateThumbprint="$Thumbprint" /p:AppxPackageSigningEnabled=true
-- ps: Rename-Item -Path "bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\JukaApp_1.0.0.1_x64_Debug.msix" -NewName "Juka_Windows_App_$(APPVEYOR_BUILD_VERSION).msix"
 - ps: dotnet publish JukaApp.sln -f net6.0-android -c Release /p:PackageCertificateThumbprint="$Thumbprint" /p:AppxPackageSigningEnabled=true
-- ps: Rename-Item -Path "bin\Release\net6.0-android\publish\com.jukalang.jukaapp-Signed.apk" -NewName "Juka_Android_App_$(APPVEYOR_BUILD_VERSION).apk"
 
 artifacts:
 - path: 'bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\Juka_Windows_App_$(APPVEYOR_BUILD_VERSION).msix'
