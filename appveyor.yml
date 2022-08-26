@@ -40,8 +40,6 @@ build_script:
 - ps: dotnet publish JukaApp.sln -f net6.0-android -c Release /p:PackageCertificateThumbprint="$Thumbprint" /p:AppxPackageSigningEnabled=true
 - ps: Rename-Item -Path "bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\JukaApp_1.0.0.1_x64_Debug.msix" -NewName "Juka_Windows_App_$env:package_version.msix"
 - ps: Rename-Item -Path "bin\Release\net6.0-android\publish\com.jukalang.jukaapp-Signed.apk" -NewName "Juka_Android_App_$env:package_version.apk"
-- ps: Get-ChildItem -Path bin\Release\net6.0-android\publish\
-- ps: Get-ChildItem -Path bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\
 
 artifacts:
 - path: 'bin\Debug\net6.0-windows10.0.19041.0\win10-x64\AppPackages\JukaApp_1.0.0.1_Debug_Test\Juka_Windows_App_$(APPVEYOR_BUILD_VERSION).msix'
