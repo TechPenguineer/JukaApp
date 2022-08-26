@@ -18,7 +18,7 @@
                 
                 Padding="10,0,0,0"
                 FontFamily="Poppins"
-                TextColor="#707070"
+                TextColor="#333447"
                 Text="Juka Language"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="25"
@@ -30,7 +30,7 @@
                 Margin="25,0,0,0"
                 Padding="0,10,0,0"
                 FontFamily="Poppins"
-                TextColor="#707070"
+                TextColor="#333447"
                 Text="Interactive Command Shell"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="11"
