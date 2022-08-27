@@ -62,12 +62,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-
-	  <PackageReference Include="JukaCompiler" Version="0.0.199" />
+	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Resources\Images\" />
+	  <PackageReference Include="JukaCompiler" Version="0.0.199" />
 	</ItemGroup>
 
 </Project>

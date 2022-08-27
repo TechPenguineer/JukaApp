@@ -77,7 +77,6 @@ func main() = {
                     <Label 
                          x:Name="outputText"
                          TextType="Text"
-                         ZIndex="2"
                          Margin="44"
                          FontSize="16"
                          HorizontalOptions="Center" 
