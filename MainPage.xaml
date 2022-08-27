@@ -37,7 +37,8 @@
                         IsSpellCheckEnabled="False"
                         AutoSize="TextChanges"
                         IsTextPredictionEnabled="False"
-                        Placeholder="Enter Code Here..."                        
+                        Placeholder="Enter Code Here..." 
+                        TextColor="#333447"
                         >
                         <Editor.Text>
                             func main() = { 
