@@ -13,17 +13,17 @@
     </NavigationPage>
     <NavigationPage Title="Files" IconImageSource="{StaticResource TabTwo}">
         <x:Arguments>
-            <local:MainPage Title="Files" />
+            <local:FilePage Title="Files" />
         </x:Arguments>
     </NavigationPage>
     <NavigationPage Title="Docs" IconImageSource="{StaticResource TabThree}">
         <x:Arguments>
-            <local:MainPage Title="Documentation" />
+            <local:DocsPage Title="Documentation" />
         </x:Arguments>
     </NavigationPage>
     <NavigationPage Title="About" IconImageSource="{StaticResource TabFour}">
         <x:Arguments>
-            <local:MainPage Title="About" />
+            <local:AboutPage Title="About" />
         </x:Arguments>
     </NavigationPage>
 

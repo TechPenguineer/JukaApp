@@ -61,7 +61,6 @@
                     >
                 </Button>
 
-
                 <Label 
                          x:Name="outputText"
                          TextType="Text"
