@@ -15,9 +15,7 @@
             VerticalOptions="Start">
 
                 <Label
-                
-                Padding="10,0,0,0"
-                FontFamily="Poppins"
+                    Padding="10,0,0,0"
                 TextColor="#333447"
                 Text="Juka Language"
                 SemanticProperties.HeadingLevel="Level1"
@@ -25,18 +23,8 @@
                 VerticalTextAlignment="Center"
                 HorizontalOptions="Start">
                 </Label>
+
                 
-                <Label
-                Margin="25,0,0,0"
-                Padding="0,10,0,0"
-                FontFamily="Poppins"
-                TextColor="#333447"
-                Text="Interactive Command Shell"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="11"
-                VerticalTextAlignment="Center"
-                HorizontalOptions="Start"
-                />
 
 
                 <Frame
@@ -52,7 +40,7 @@
                         Placeholder="Enter Code Here..."                        
                         >
                         <Editor.Text>
-func main() = { 
+                            func main() = { 
    printLine("Hello World");
 }
                         </Editor.Text>
@@ -64,37 +52,38 @@ func main() = {
                 <Button
                     BackgroundColor="#646464"
                     x:Name="RunJukaBtn"
-                    Text="Run Juko"
+                    Text="Run Juka"
                     SemanticProperties.Hint="Execute"
                     Clicked="OnCounterClicked"
                     HorizontalOptions="Center"
                     CornerRadius="7"
-                    Padding="20,4"
-                    FontFamily="Poppins">
+                    
+                    >
                 </Button>
 
-                
-                    <Label 
+
+                <Label 
                          x:Name="outputText"
                          TextType="Text"
                          Margin="44"
                          FontSize="16"
                          HorizontalOptions="Center" 
                          VerticalTextAlignment="End"
-                         Padding="20,5,50,0"/>
+                         />
+
                 <Label
                     
                     Margin="0,0,0,200"
                     x:Name="footerText"
                     FontSize="Small"
-                    Text="This project is actively maintained by Juka"
+                    Text="This project is actively maintained by Juka Team"
                     Opacity=".5"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     />
 
 
-                </VerticalStackLayout>
+            </VerticalStackLayout>
         </ScrollView>
     </Grid>
 </ContentPage>
