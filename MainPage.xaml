@@ -69,6 +69,7 @@
                          FontSize="16"
                          HorizontalOptions="Center" 
                          VerticalTextAlignment="End"
+                         TextColor="#000000"
                          />
 
                 <Label
